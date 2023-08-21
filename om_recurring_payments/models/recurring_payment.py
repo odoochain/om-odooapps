@@ -8,6 +8,7 @@ from odoo.exceptions import ValidationError
 
 class RecurringPayment(models.Model):
     _name = 'recurring.payment'
+    # _inherit = 'account.recurring.template'
     _description = 'Recurring Payment('
     _rec_name = 'name'
 
