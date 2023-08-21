@@ -28,14 +28,14 @@ class AccountRecurringTemplate(models.Model):
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company.id)
     # next_call = fields.Date(string="Next Call", compute="_compute_next_call")
 
-    @api.depends('date_begin', 'date_end')
-    def _compute_next_call(self):
-        for rec in self:
-            exec_date = rec.date_begin + relativedelta(days=rec.recurring_interval)
-            if exec_date <= rec.date_end:
-                rec.next_call = exec_date
-            else:
-                rec.state = 'done'
+    # @api.depends('date_begin', 'date_end')
+    # def _compute_next_call(self):
+    #     for rec in self:
+    #         exec_date = rec.date_begin + relativedelta(days=rec.recurring_interval)
+    #         if exec_date <= rec.date_end:
+    #             rec.next_call = exec_date
+    #         else:
+    #             rec.state = 'done'
 
     def action_draft(self):
         for rec in self:
