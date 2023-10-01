@@ -2,7 +2,7 @@
 
 {
     'name': 'Odoo 14 Account Bank Statement Import',
-    'version': '14.0.2.2.0',
+    'version': '14.0.3.0.0',
     'category': 'Accounting',
     'depends': ['account'],
     'website': 'https://www.odoomates.tech',
@@ -14,9 +14,8 @@
 (This module does include any CSV and XLSX type import format.)""",
     'data': [
         'security/ir.model.access.csv',
-        'account_bank_statement_import_view.xml',
-        'account_import_tip_data.xml',
         'wizard/journal_creation.xml',
+        'views/account_bank_statement_import_view.xml',
         'views/account_bank_statement_import_templates.xml',
     ],
     'demo': [

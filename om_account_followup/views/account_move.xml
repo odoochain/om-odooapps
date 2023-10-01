@@ -20,6 +20,7 @@
             </field>
         </record>
 
+
         <record id="account_manual_reconcile_action" model="ir.actions.act_window">
             <field name="context">{'search_default_unreconciled': 1,'view_mode':True}</field>
             <field name="name">Journal Items to Reconcile</field>
@@ -33,12 +34,11 @@
             </field>
         </record>
 
-        <menuitem
-                name="Reconcile Invoices &amp; Payments"
-                action="account_manual_reconcile_action"
-                parent="menu_finance_followup"
-                sequence="0"
-                id="menu_manual_reconcile_followup"/>
+<!--        <menuitem name="Reconcile Invoices &amp; Payments"-->
+<!--                action="account_manual_reconcile_action"-->
+<!--                parent="menu_finance_followup"-->
+<!--                sequence="100"-->
+<!--                id="menu_manual_reconcile_followup"/>-->
 
         <menuitem id="om_account_followup_main_menu"
                   parent="account.menu_finance_configuration"
@@ -65,7 +65,6 @@
                     <field name="followup_date"/>
                     <field name="debit" sum="Total debit"/>
                     <field name="credit" sum="Total credit"/>
-                    <!--<field name="state"/>-->
                     <field name="date_maturity"/>
                 </tree>
             </field>

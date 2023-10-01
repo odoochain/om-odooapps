@@ -51,6 +51,28 @@ class ResPartner(models.Model):
             partner.latest_followup_level_id = latest_level
             partner.latest_followup_level_id_without_lit = latest_level_without_lit
 
+    def do_partner_manual_action_dermanord(self, followup_line):
+        # partner_ids -> res.partner
+        # Check action: check if the action was not empty, if not add
+        action_text = ""
+        action_text = followup_line.manual_action_note or ''
+
+        # Check date: only change when it did not exist already
+        action_date = self.payment_next_action_date or \
+            fields.Date.today()
+
+        # Check responsible: if partner has not got a responsible already,
+        # take from follow-up
+        responsible_id = False
+        if self.payment_responsible_id:
+            responsible_id = self.payment_responsible_id.id
+        else:
+            p = followup_line.manual_action_responsible_id
+            responsible_id = p and p.id or False
+        self.write({'payment_next_action_date': action_date,
+                    'payment_next_action': action_text,
+                    'payment_responsible_id': responsible_id})
+
     def do_partner_manual_action(self, partner_ids):
         # partner_ids -> res.partner
         for partner in self.browse(partner_ids):
@@ -210,7 +232,7 @@ class ResPartner(models.Model):
         if vals.get("payment_responsible_id", False):
             for part in self:
                 if part.payment_responsible_id != \
-                        vals["payment_responsible_id"]:
+                        self.env['res.users'].browse(vals["payment_responsible_id"]):
                     # Find partner_id of user put as responsible
                     responsible_partner_id = self.env["res.users"].browse(
                         vals['payment_responsible_id']).partner_id.id
@@ -376,7 +398,8 @@ class ResPartner(models.Model):
                 partners.add(aml.partner_id.id)
         return list(partners)
 
-    payment_responsible_id = fields.Many2one('res.users', ondelete='set null', string='Follow-up Responsible',
+    payment_responsible_id = fields.Many2one('res.users', ondelete='set null',
+                                             string='Follow-up Responsible',
                                              tracking=True, copy=False,
                                              help="Optionally you can assign a user to this field, which will make "
                                                   "him responsible for the action.", )
@@ -397,6 +420,9 @@ class ResPartner(models.Model):
                                        help="Latest date that the follow-up level of the partner was changed")
     latest_followup_level_id = fields.Many2one('followup.line', compute='_get_latest',
                                                string="Latest Follow-up Level", help="The maximum follow-up level")
+
+    latest_followup_sequence = fields.Integer('Sequence', help="Gives the sequence order when displaying a list of follow-up lines.", default=0)
+
     latest_followup_level_id_without_lit = fields.Many2one('followup.line',
                                                            compute='_get_latest', store=True,
                                                            string="Latest Follow-up Level without litigation",
