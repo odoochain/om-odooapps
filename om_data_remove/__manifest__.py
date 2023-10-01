@@ -12,8 +12,7 @@
     'license': 'LGPL-3',
     'sequence': 20,
     'live_test_url': '',
-    'summary': """""",
-    'depends': ['base',],
+    'depends': ['base', ],
     'data': [
         'views/view.xml',
     ],
