@@ -16,6 +16,7 @@
         'views/project_task_view.xml',
         'views/task_checklist_view.xml',
     ],
+    'excludes': ['sh_all_in_one_pms'],
     'demo': [
         'demo/checklist_demo.xml'
     ],
